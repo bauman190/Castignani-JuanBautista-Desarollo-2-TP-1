@@ -1,6 +1,8 @@
 using UnityEngine;
+using UnityEngine.InputSystem.Utilities;
 
-public class PlayerMovment : MonoBehaviour
+[RequireComponent(typeof(Rigidbody))]
+public class PlayerControler : MonoBehaviour
 {
 
     [SerializeField] private float speed = 1f;
@@ -8,12 +10,30 @@ public class PlayerMovment : MonoBehaviour
     private Vector3 movment;
     private Vector3 rotation;
     [SerializeField]private float rotationSpeed = 10f;
+    [SerializeField] private Bullet prefabBullet;
+    [SerializeField] private Transform tip;
+    [SerializeField] private float bulletSpeed = 10.0f;
+    [SerializeField] private Transform bulletContent;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
-    void Update()
+    private void Update()
+    {
+        Movement();
+        Shoot();
+    }
+    private void Shoot()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+           Bullet bullet = Instantiate(prefabBullet, tip.position, tip.rotation, bulletContent); 
+           bullet.Logic(bulletSpeed);
+        }
+        
+    }
+    private void Movement()
     {
         float movmentY = 0;
 
@@ -34,7 +54,6 @@ public class PlayerMovment : MonoBehaviour
         + Vector3.up * movmentY;
         rotation = new Vector3(0, rotationInput, 0);
     }
-
     private void FixedUpdate()
     {
         rb.AddForce(movment * speed);
