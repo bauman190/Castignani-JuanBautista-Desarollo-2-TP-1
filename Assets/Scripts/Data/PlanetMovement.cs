@@ -9,7 +9,6 @@ public class PlanetMovement : MonoBehaviour
     private float speed = 0f;
 
 
-
     void Start()
     {
         radius = Vector3.Distance(transform.position, target.position);
