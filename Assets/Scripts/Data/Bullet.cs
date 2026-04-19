@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     Rigidbody rb;
     [SerializeField] AudioSource AS;
+    [SerializeField] GameObject prefabParticles;
 
     public void Awake()
     {
@@ -24,6 +25,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        var particle = Instantiate(prefabParticles, transform.position, Quaternion.identity);
         Destroy(other.gameObject);
         Destroy(gameObject);
     }
