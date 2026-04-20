@@ -1,6 +1,6 @@
 using UnityEngine;
 
-//[RequireComponent(typeof(AudioSource))]
+
 public class PlanetBehaviour : MonoBehaviour
 {
     [SerializeField]  private Transform target;
@@ -10,6 +10,7 @@ public class PlanetBehaviour : MonoBehaviour
 
     private float radius;
     private float speed = 0f;
+    [SerializeField] private float spinSpeed = 50f;
 
     private void Awake()
     {
@@ -19,12 +20,14 @@ public class PlanetBehaviour : MonoBehaviour
     {
         radius = Vector3.Distance(transform.position, target.position);
         speed = (baseSpeed / radius) * Time.deltaTime;
+        spinSpeed = spinSpeed / radius;
     }
 
    
     private void Update()
     {
         transform.RotateAround(target.position, Vector3.up, speed);
+        transform.Rotate(Vector3.up * spinSpeed * Time.deltaTime, Space.Self);
     }
     private void OnDestroy()
     {
